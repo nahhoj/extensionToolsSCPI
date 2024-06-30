@@ -1,0 +1,3 @@
+GET http://localhost:8080/keypair?key=sfapi
+Cookie:JTENANTSESSIONID_eea5c3c88=7CthAMadCiRMkbIXwbZaK9jgMFW5aynuAH3eJpS9sOs%3D; slo_regular_domains_eu1_services_services=H4sIAAAAAAAAADMxrZw%2Bw1RN6iub15%2BFXhf%2B2cUxfjud6qKdVjN5UuflhQoAwZYGcCAAAAA%3D; JTENANTSESSIONID_services=Db%2BOOuMxZ1pP7qzabp7cWsZDq4jAZldI7c8IblXMOlE%3D; __VCAP_ID__=a1090173-2c50-455f-565e-dc16; JSESSIONID=s%3AWllIpVsjq-kWbEiUS05RZqEjaGgk-Xxd.mpzcDeGoW5SWXxVXmLtclMF7TM%2Btx1dwUuLnZE9uerQ
+tenant:https://scpi-test-nyt5cpot.integrationsuite.cfapps.eu10-002.hana.ondemand.com

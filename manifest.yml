@@ -1,0 +1,7 @@
+---
+applications:
+- name: extensionToolBackend
+  buildpack: go_buildpack
+  memory: 256M
+  env:
+    GOPACKAGENAME : extensionToolBackend
