@@ -1,11 +1,15 @@
 package handler
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"os"
+	"os/exec"
 
+	"github.com/google/uuid"
 	"github.com/nahhoj/extensionToolsSCPI/tools"
 )
 
@@ -44,4 +48,19 @@ func WebServiceTest(w http.ResponseWriter, r *http.Request) {
 	responseBody += fmt.Sprintln(string(body))
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(responseBody))
+}
+
+func FormatCode(w http.ResponseWriter, r *http.Request) {
+	fileName := uuid.New()
+	bodyBytes, _ := io.ReadAll(r.Body)
+	bodyDecoder, _ := base64.StdEncoding.DecodeString(string(bodyBytes))
+	os.WriteFile(fileName.String()+".groovy", bodyDecoder, 0644)
+	cmd := exec.Command("npm-groovy-lint", "--formar", fileName.String()+".groovy")
+	//cmd := exec.Command("java", "-version")
+	err := cmd.Run()
+	fmt.Println(err.Error())
+	bodyDecoder, _ = os.ReadFile(fileName.String() + ".groovy")
+	os.Remove(fileName.String() + ".groovy")
+	w.WriteHeader(http.StatusOK)
+	w.Write(bodyDecoder)
 }
