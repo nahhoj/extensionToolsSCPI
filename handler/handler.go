@@ -55,12 +55,16 @@ func FormatCode(w http.ResponseWriter, r *http.Request) {
 	bodyBytes, _ := io.ReadAll(r.Body)
 	bodyDecoder, _ := base64.StdEncoding.DecodeString(string(bodyBytes))
 	os.WriteFile(fileName.String()+".groovy", bodyDecoder, 0644)
-	cmd := exec.Command("npm-groovy-lint", "--formar", fileName.String()+".groovy")
-	//cmd := exec.Command("java", "-version")
+	cmd := exec.Command("npm-groovy-lint", "--format", fileName.String()+".groovy")
 	err := cmd.Run()
-	fmt.Println(err.Error())
-	bodyDecoder, _ = os.ReadFile(fileName.String() + ".groovy")
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
+		bodyDecoder, _ = os.ReadFile(fileName.String() + ".groovy")
+		body := base64.StdEncoding.EncodeToString(bodyDecoder)
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(body))
+	}
 	os.Remove(fileName.String() + ".groovy")
-	w.WriteHeader(http.StatusOK)
-	w.Write(bodyDecoder)
 }
