@@ -8,8 +8,10 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/google/uuid"
+	"github.com/nahhoj/extensionToolsSCPI/datatypes"
 	"github.com/nahhoj/extensionToolsSCPI/tools"
 )
 
@@ -67,4 +69,28 @@ func FormatCode(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(body))
 	}
 	os.Remove(fileName.String() + ".groovy")
+}
+
+func GroovyLog(w http.ResponseWriter, r *http.Request) {
+	var groovyLog datatypes.GroovyLog
+	bodyBytes, _ := io.ReadAll(r.Body)
+	json.Unmarshal(bodyBytes, &groovyLog)
+	cmd := exec.Command("groovy", "utils/main.groovy", groovyLog.Script, groovyLog.Body, groovyLog.Headers, groovyLog.Properties, groovyLog.Method)
+	output, err := cmd.Output()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(err.Error()))
+	} else {
+		outputArray := strings.Split(string(output), "\r\n")
+		groovyLog = datatypes.GroovyLog{
+			Log:        string(string(output)[strings.Index(string(output), "-start-")+5 : strings.Index(string(output), "-end-")]),
+			Body:       outputArray[4],
+			Headers:    outputArray[5],
+			Properties: outputArray[6],
+		}
+		jsonOutput, _ := json.Marshal(&groovyLog)
+		w.Header().Add("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		w.Write(jsonOutput)
+	}
 }

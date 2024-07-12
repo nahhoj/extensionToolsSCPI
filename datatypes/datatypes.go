@@ -20,6 +20,15 @@ type ResponseKeyPair struct {
 	Cert       string `json:"cert,omitempty"`
 }
 
+type GroovyLog struct {
+	Script     string `json:"script,omitempty"`
+	Body       string `json:"body,omitempty"`
+	Headers    string `json:"headers,omitempty"`
+	Properties string `json:"properties,omitempty"`
+	Method     string `json:"method,omitempty"`
+	Log        string `json:"log,omitempty"`
+}
+
 //Data types service consumer API SAP CPI
 type UserCredentials struct {
 	ArtifactInformations []struct {

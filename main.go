@@ -12,6 +12,7 @@ func main() {
 	serverMux.HandleFunc("/keypair", handler.KeyPair)
 	serverMux.HandleFunc("/webservicetest", handler.WebServiceTest)
 	serverMux.HandleFunc("/formatcode", handler.FormatCode)
+	serverMux.HandleFunc("/groovylog", handler.GroovyLog)
 	server := http.Server{Addr: ":8080", Handler: serverMux}
 	server.ListenAndServe()
 }
