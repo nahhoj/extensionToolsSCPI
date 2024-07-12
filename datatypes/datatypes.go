@@ -29,6 +29,10 @@ type GroovyLog struct {
 	Log        string `json:"log,omitempty"`
 }
 
+type FormatCode struct {
+	Code string `json:"code"`
+}
+
 //Data types service consumer API SAP CPI
 type UserCredentials struct {
 	ArtifactInformations []struct {

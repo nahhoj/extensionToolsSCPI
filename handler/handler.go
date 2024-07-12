@@ -53,9 +53,11 @@ func WebServiceTest(w http.ResponseWriter, r *http.Request) {
 }
 
 func FormatCode(w http.ResponseWriter, r *http.Request) {
+	var formatCode datatypes.FormatCode
 	fileName := uuid.New()
 	bodyBytes, _ := io.ReadAll(r.Body)
-	bodyDecoder, _ := base64.StdEncoding.DecodeString(string(bodyBytes))
+	json.Unmarshal(bodyBytes, &formatCode)
+	bodyDecoder, _ := base64.StdEncoding.DecodeString(string(formatCode.Code))
 	os.WriteFile(fileName.String()+".groovy", bodyDecoder, 0644)
 	cmd := exec.Command("npm-groovy-lint", "--format", fileName.String()+".groovy")
 	err := cmd.Run()
@@ -64,9 +66,13 @@ func FormatCode(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 	} else {
 		bodyDecoder, _ = os.ReadFile(fileName.String() + ".groovy")
-		body := base64.StdEncoding.EncodeToString(bodyDecoder)
+		formatCode = datatypes.FormatCode{
+			Code: base64.StdEncoding.EncodeToString(bodyDecoder),
+		}
+		jsonOutput, _ := json.Marshal(&formatCode)
+		w.Header().Add("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte(body))
+		w.Write(jsonOutput)
 	}
 	os.Remove(fileName.String() + ".groovy")
 }
