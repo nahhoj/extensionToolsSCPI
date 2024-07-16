@@ -1,0 +1,3 @@
+GET http://localhost:8080/securutymaterial?credential=JIRA
+Cookie:JSESSIONID=CBFE8DB6E2CAECB73053AEE410383FE8AB8143348FF9E2F25A482EB5F046617B; BIGipServere400064tmnavtbr1cpie.factorybr1.customdomain=!1MnQ+YmJ8Y+S3xNVJ35jylOqfgGM2kc3909KwZ97Xw1vVXCI4uaBlSBMAkxETIMAlDOKaEm7IAkC+h0=; slo_regular_domains_br1_n19fdcdfe_n19fdcdfe=H4sIAAAAAAAAAAEwAM%2F%2Fa%2FmJRW1AO5xWXyGXnvZ6JBeSA0nobIjrKj55Uspa3xKyts164nvHBXH1q3zyD2zqVGGwATAAAAA%3D; JTENANTSESSIONID_n19fdcdfe=6PCLXJlqK3jDODLYhPrvvpG2pHirPMgDTvvPxfAKG9U%3D
+tenant:https://e400064-tmn.hci.br1.hana.ondemand.com
